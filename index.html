@@ -42,30 +42,27 @@
       border: 1px solid #ccc;
       white-space: pre-wrap;
       word-break: break-word;
-    }
-
-    #result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
+      position: relative;
     }
 
     #copyBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
       background: transparent;
       border: none;
       padding: 6px;
-      border-radius: 6px;
-      transition: background-color 0.2s ease;
+      border-radius: 4px;
       cursor: pointer;
+      transition: background-color 0.2s ease;
     }
 
     #copyBtn:hover {
-      background-color: #e5e7eb;
+      background-color: #f1f1f1;
     }
 
     #copyBtn svg {
-      stroke: #555;
+      stroke: #666;
     }
 
     button.primary {
@@ -98,16 +95,14 @@
   <img id="preview" src="" alt="Preview" style="display:none;" />
 
   <div id="result" style="display:none;">
-    <div id="result-header">
-      <strong>✅ Prompt trả về:</strong>
-      <button id="copyBtn" onclick="copyPrompt()" title="Copy Prompt">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
-      </button>
-    </div>
-    <div id="promptText"></div>
+    <button id="copyBtn" onclick="copyPrompt()" title="Copy Prompt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    </button>
+    <strong style="display: block; margin-bottom: 8px;">✅ Prompt trả về:</strong>
+    <div id="promptText">⏳ Đang tạo prompt...</div>
   </div>
 
   <script>
