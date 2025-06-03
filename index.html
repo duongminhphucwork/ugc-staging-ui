@@ -94,7 +94,7 @@
       resultBox.innerHTML = "⏳ Đang gửi dữ liệu tới n8n...";
 
       try {
-        const res = await fetch("https://coldbrewecom.app.n8n.cloud/webhook-test/4a8f414c-14ff-4688-b607-631d71fee781", {
+        const res = await fetch("https://coldbrewecom.app.n8n.cloud/webhook/4a8f414c-14ff-4688-b607-631d71fee781", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
