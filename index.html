@@ -105,7 +105,7 @@
 
         const data = await res.json();
         if (data.prompt) {
-          resultBox.innerHTML = ✅ Prompt trả về:\n\n${data.prompt};
+          resultBox.innerHTML = `✅ Prompt trả về:\n\n${data.prompt}`;
         } else {
           resultBox.innerHTML = "❌ Không nhận được prompt từ server.";
         }
