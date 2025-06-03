@@ -47,6 +47,22 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       white-space: pre-wrap;
+      position: relative;
+    }
+    #copyBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #10b981;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    #copyBtn:hover {
+      background: #059669;
     }
   </style>
 </head>
@@ -62,12 +78,16 @@
 
   <button onclick="submitToN8N()">🔁 Tạo Prompt</button>
 
-  <img id="preview" src="" alt="" style="display:none;" />
+  <img id="preview" src="" alt="Preview" style="display:none;" />
 
-  <div id="result"></div>
+  <div id="result" style="display:none;">
+    <button id="copyBtn" onclick="copyPrompt()">📋 Copy Prompt</button>
+    <div id="promptText"></div>
+  </div>
 
   <script>
     let base64Image = "";
+    let latestPrompt = "";
 
     document.getElementById("imageInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
@@ -75,7 +95,7 @@
 
       const reader = new FileReader();
       reader.onloadend = function () {
-        base64Image = reader.result.split(',')[1]; // Bỏ prefix data:image/...
+        base64Image = reader.result.split(',')[1];
         document.getElementById("preview").src = reader.result;
         document.getElementById("preview").style.display = "block";
       };
@@ -85,13 +105,15 @@
     async function submitToN8N() {
       const productName = document.getElementById("productName").value.trim();
       const resultBox = document.getElementById("result");
+      const promptText = document.getElementById("promptText");
 
       if (!base64Image || !productName) {
         alert("Vui lòng chọn ảnh và nhập tên sản phẩm!");
         return;
       }
 
-      resultBox.innerHTML = "⏳ Đang tạo prompt...";
+      promptText.textContent = "⏳ Đang tạo prompt...";
+      resultBox.style.display = "block";
 
       try {
         const res = await fetch("https://coldbrewecom.app.n8n.cloud/webhook/4a8f414c-14ff-4688-b607-631d71fee781", {
@@ -105,14 +127,25 @@
 
         const data = await res.json();
         if (data.prompt) {
-          resultBox.innerHTML = `✅ Prompt trả về:\n\n${data.prompt}`;
+          latestPrompt = data.prompt;
+          promptText.textContent = data.prompt;
         } else {
-          resultBox.innerHTML = "❌ Không nhận được prompt từ server.";
+          promptText.textContent = "❌ Không nhận được prompt từ server.";
         }
 
       } catch (err) {
-        resultBox.innerHTML = "🚫 Gửi dữ liệu thất bại: " + err.message;
+        promptText.textContent = "🚫 Lỗi: " + err.message;
       }
+    }
+
+    function copyPrompt() {
+      navigator.clipboard.writeText(latestPrompt).then(() => {
+        const btn = document.getElementById("copyBtn");
+        btn.innerText = "✅ Đã copy!";
+        setTimeout(() => {
+          btn.innerText = "📋 Copy Prompt";
+        }, 2000);
+      });
     }
   </script>
 
