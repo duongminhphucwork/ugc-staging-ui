@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chọn ảnh staging</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h2 {
+      color: #333;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .img-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 280px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .img-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .img-card button {
+      margin-top: 12px;
+      padding: 8px 14px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .img-card button:hover {
+      background: #2563eb;
+    }
+    #promptBox {
+      margin-top: 40px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🖼️ Chọn ảnh staging bạn thích nhất:</h2>
+  <div class="container" id="imageContainer"></div>
+
+  <h3>📄 Prompt tạo ảnh:</h3>
+  <div id="promptBox">Loading prompt...</div>
+
+  <script>
+    const imageUrls = [
+      "https://cdn.leonardo.ai/example/image1.png",
+      "https://cdn.leonardo.ai/example/image2.png",
+      "https://cdn.leonardo.ai/example/image3.png"
+    ];
+
+    const promptText = `
+A 7ft artificial olive tree with silk leaves and realistic trunk, placed in the corner of a Scandinavian living room inside a cozy American suburban home. The room features oak wood flooring, neutral beige tones, and soft sunlight from a large window with sheer curtains. Next to the tree is a light gray fabric sofa, with decorative elements including ceramic vases, a floor lamp, and framed artwork on the wall. Captured in a photorealistic, eye-level iPhone shot with soft shadows and 8K clarity.
+    `.trim();
+
+    document.getElementById("promptBox").textContent = promptText;
+
+    const imageContainer = document.getElementById("imageContainer");
+    imageUrls.forEach((url, index) => {
+      const card = document.createElement("div");
+      card.className = "img-card";
+
+      const img = document.createElement("img");
+      img.src = url;
+
+      const btn = document.createElement("button");
+      btn.innerText = "⬇️ Tải ảnh này";
+      btn.onclick = () => {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `staging-image-${index + 1}.png`;
+        a.click();
+      };
+
+      card.appendChild(img);
+      card.appendChild(btn);
+      imageContainer.appendChild(card);
+    });
+  </script>
+</body>
+</html>
