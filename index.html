@@ -91,7 +91,7 @@
         return;
       }
 
-      resultBox.innerHTML = "⏳ Đang gửi dữ liệu tới n8n...";
+      resultBox.innerHTML = "⏳ Đang tạo prompt...";
 
       try {
         const res = await fetch("https://coldbrewecom.app.n8n.cloud/webhook/4a8f414c-14ff-4688-b607-631d71fee781", {
@@ -105,7 +105,7 @@
 
         const data = await res.json();
         if (data.prompt) {
-          resultBox.innerHTML = `✅ Prompt GPT trả về:\n\n${data.prompt}`;
+          resultBox.innerHTML = `✅ Prompt trả về:\n\n${data.prompt}`;
         } else {
           resultBox.innerHTML = "❌ Không nhận được prompt từ server.";
         }
