@@ -25,15 +25,8 @@
       box-sizing: border-box;
     }
     button {
-      background: #3b82f6;
-      color: white;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      margin-top: 16px;
-    }
-    button:hover {
-      background: #2563eb;
     }
     #preview {
       margin-top: 20px;
@@ -47,22 +40,40 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       white-space: pre-wrap;
-      position: relative;
+      word-break: break-word;
     }
+    #result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
     #copyBtn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #10b981;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: none;
       border: none;
-      color: white;
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 13px;
       cursor: pointer;
+      padding: 0;
+      gap: 6px;
     }
-    #copyBtn:hover {
-      background: #059669;
+
+    .copy-icon-wrapper {
+      background-color: #f1f1f1;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    #copyBtn span {
+      background-color: black;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
     }
   </style>
 </head>
@@ -76,12 +87,22 @@
   <label for="productName">📝 Tên sản phẩm</label>
   <input type="text" id="productName" placeholder="Nhập tên sản phẩm..." />
 
-  <button onclick="submitToN8N()">🔁 Tạo Prompt</button>
+  <button style="background: #3b82f6; color: white; border-radius: 6px; margin-top: 16px;" onclick="submitToN8N()">🔁 Tạo Prompt</button>
 
   <img id="preview" src="" alt="Preview" style="display:none;" />
 
   <div id="result" style="display:none;">
-    <button id="copyBtn" onclick="copyPrompt()">📋 Copy Prompt</button>
+    <div id="result-header">
+      <strong>✅ Prompt trả về:</strong>
+      <button id="copyBtn" onclick="copyPrompt()" aria-label="Copy Prompt">
+        <div class="copy-icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 24 24" fill="#333">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/>
+          </svg>
+        </div>
+        <span>Copy</span>
+      </button>
+    </div>
     <div id="promptText"></div>
   </div>
 
@@ -140,10 +161,11 @@
 
     function copyPrompt() {
       navigator.clipboard.writeText(latestPrompt).then(() => {
-        const btn = document.getElementById("copyBtn");
-        btn.innerText = "✅ Đã copy!";
+        const span = document.querySelector("#copyBtn span");
+        const originalText = span.innerText;
+        span.innerText = "✓ Copied!";
         setTimeout(() => {
-          btn.innerText = "📋 Copy Prompt";
+          span.innerText = originalText;
         }, 2000);
       });
     }
